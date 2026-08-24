@@ -16,7 +16,28 @@ public class EnrollmentService {
         this.enrollmentRepository = enrollmentRepository;
     }
 
+    // Lấy tất cả Enrollment
     public List<Enrollment> findAllEnrollments() {
         return enrollmentRepository.findAll();
+    }
+
+    // Lấy Enrollment theo ID
+    public Enrollment findEnrollmentById(String id) {
+        return enrollmentRepository.findById(id);
+    }
+
+    // Thêm Enrollment
+    public Enrollment createEnrollment(Enrollment enrollment) {
+        return enrollmentRepository.create(enrollment);
+    }
+
+    // Cập nhật Enrollment
+    public Enrollment updateEnrollment(String id, Enrollment enrollment) {
+        return enrollmentRepository.update(id, enrollment);
+    }
+
+    // Xóa Enrollment
+    public Enrollment deleteEnrollmentById(String id) {
+        return enrollmentRepository.deleteById(id);
     }
 }
