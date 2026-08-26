@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -24,6 +27,13 @@ public class Course {
     @Column(nullable = false)
     private CourseStatus status;
 
-    @Column(nullable = false)
-    private Long instructorId;
+    // Nhiều Course thuộc về một Instructor
+    @ManyToOne
+    @JoinColumn(name = "instructor_id", nullable = false)
+    private Instructor instructor;
+
+    // Một Course có nhiều StudentEnrollment
+    @OneToMany(mappedBy = "course")
+    private List<StudentEnrollment> enrollments = new ArrayList<>();
+
 }

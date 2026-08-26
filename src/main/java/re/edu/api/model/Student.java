@@ -14,18 +14,18 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "instructors")
-public class Instructor {
+@Table(name = "students")
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 100, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "email", nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "instructor")
-    private List<Course> courses = new ArrayList<>();
+    @OneToMany(mappedBy = "student")
+    private List<StudentEnrollment> enrollments = new ArrayList<>();
 }

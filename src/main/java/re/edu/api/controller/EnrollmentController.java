@@ -1,32 +1,35 @@
 package re.edu.api.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import re.edu.api.model.Enrollment;
+import re.edu.api.model.StudentEnrollment;
 import re.edu.api.service.EnrollmentService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/enrollments")
 public class EnrollmentController {
     private final EnrollmentService enrollmentService;
 
+    @Autowired
     public EnrollmentController(EnrollmentService enrollmentService) {
         this.enrollmentService = enrollmentService;
     }
 
-    // Lấy full ds
     @GetMapping
-    public ResponseEntity<List<Enrollment>> getAllEnrollments() {
-        return ResponseEntity.ok(enrollmentService.findAllEnrollments());
+    public ResponseEntity<Page<StudentEnrollment>> getAllEnrollments(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(enrollmentService.findAllEnrollments(page, size)
+        );
     }
 
     // Lấy theo id
     @GetMapping("/{id}")
-    public ResponseEntity<Enrollment> getEnrollmentById(@PathVariable String id) {
-        Enrollment enrollment = enrollmentService.findEnrollmentById(id);
+    public ResponseEntity<StudentEnrollment> getEnrollmentById(@PathVariable Long id) {
+        StudentEnrollment enrollment = enrollmentService.findEnrollmentById(id);
         if (enrollment == null) {
             return ResponseEntity.notFound().build();
         }
@@ -35,15 +38,18 @@ public class EnrollmentController {
 
     // Thêm
     @PostMapping
-    public ResponseEntity<Enrollment> createEnrollment(@RequestBody Enrollment enrollment) {
-        Enrollment newEnrollment = enrollmentService.createEnrollment(enrollment);
+    public ResponseEntity<StudentEnrollment> createEnrollment(
+            @RequestBody StudentEnrollment enrollment) {
+        StudentEnrollment newEnrollment = enrollmentService.createEnrollment(enrollment);
         return ResponseEntity.status(HttpStatus.CREATED).body(newEnrollment);
     }
 
     // Cập nhật
     @PutMapping("/{id}")
-    public ResponseEntity<Enrollment> updateEnrollment(@PathVariable String id, @RequestBody Enrollment enrollment) {
-        Enrollment updatedEnrollment = enrollmentService.updateEnrollment(id, enrollment);
+    public ResponseEntity<StudentEnrollment> updateEnrollment(
+            @PathVariable Long id,
+            @RequestBody StudentEnrollment enrollment) {
+        StudentEnrollment updatedEnrollment = enrollmentService.updateEnrollment(id, enrollment);
         if (updatedEnrollment == null) {
             return ResponseEntity.notFound().build();
         }
@@ -52,8 +58,8 @@ public class EnrollmentController {
 
     // Xóa
     @DeleteMapping("/{id}")
-    public ResponseEntity<Enrollment> deleteEnrollment(@PathVariable String id) {
-        Enrollment deletedEnrollment = enrollmentService.deleteEnrollmentById(id);
+    public ResponseEntity<StudentEnrollment> deleteEnrollment(@PathVariable Long id) {
+        StudentEnrollment deletedEnrollment = enrollmentService.deleteEnrollmentById(id);
         if (deletedEnrollment == null) {
             return ResponseEntity.notFound().build();
         }

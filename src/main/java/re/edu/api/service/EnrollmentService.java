@@ -1,11 +1,12 @@
 package re.edu.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import re.edu.api.model.Enrollment;
+import re.edu.api.model.StudentEnrollment;
 import re.edu.api.repository.EnrollmentRepository;
-
-import java.util.List;
 
 @Service
 public class EnrollmentService {
@@ -16,28 +17,41 @@ public class EnrollmentService {
         this.enrollmentRepository = enrollmentRepository;
     }
 
-    // Lấy tất cả Enrollment
-    public List<Enrollment> findAllEnrollments() {
-        return enrollmentRepository.findAll();
+    // Lấy danh sách có phân trang
+    public Page<StudentEnrollment> findAllEnrollments(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return enrollmentRepository.findAll(pageable);
     }
 
-    // Lấy Enrollment theo ID
-    public Enrollment findEnrollmentById(String id) {
-        return enrollmentRepository.findById(id);
+    // Lấy theo ID
+    public StudentEnrollment findEnrollmentById(Long id) {
+        return enrollmentRepository.findById(id).orElse(null);
     }
 
-    // Thêm Enrollment
-    public Enrollment createEnrollment(Enrollment enrollment) {
-        return enrollmentRepository.create(enrollment);
+    // Thêm
+    public StudentEnrollment createEnrollment(StudentEnrollment enrollment) {
+        return enrollmentRepository.save(enrollment);
     }
 
-    // Cập nhật Enrollment
-    public Enrollment updateEnrollment(String id, Enrollment enrollment) {
-        return enrollmentRepository.update(id, enrollment);
+    // Cập nhật
+    public StudentEnrollment updateEnrollment(Long id, StudentEnrollment enrollment) {
+        StudentEnrollment existing = enrollmentRepository.findById(id).orElse(null);
+        if (existing == null) {
+            return null;
+        }
+        return enrollmentRepository.save(existing);
     }
 
-    // Xóa Enrollment
-    public Enrollment deleteEnrollmentById(String id) {
-        return enrollmentRepository.deleteById(id);
+    // Xóa
+    public StudentEnrollment deleteEnrollmentById(Long id) {
+        StudentEnrollment enrollment =
+                enrollmentRepository.findById(id).orElse(null);
+
+        if (enrollment == null) {
+            return null;
+        }
+
+        enrollmentRepository.deleteById(id);
+        return enrollment;
     }
 }
