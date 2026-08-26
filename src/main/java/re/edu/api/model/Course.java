@@ -1,5 +1,6 @@
 package re.edu.api.model;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +10,20 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@Entity
+@Table(name = "courses")
 public class Course {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String title;
-    private String status;
-    private String instructorId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CourseStatus status;
+
+    @Column(nullable = false)
+    private Long instructorId;
 }

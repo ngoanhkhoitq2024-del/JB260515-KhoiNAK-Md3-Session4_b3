@@ -22,22 +22,32 @@ public class CourseService {
     }
 
     // Lấy Course theo ID
-    public Course findCourseById(String id) {
-        return courseRepository.findById(id);
+    public Course findCourseById(Long id) {
+        return courseRepository.findById(id).orElse(null);
     }
 
     // Thêm Course
     public Course createCourse(Course course) {
-        return courseRepository.create(course);
+        return courseRepository.save(course);
     }
 
     // Cập nhật Course
-    public Course updateCourse(String id, Course course) {
-        return courseRepository.update(id, course);
+    public Course updateCourse(Long id, Course course) {
+        if (!courseRepository.existsById(id)) {
+            return null;
+        }
+
+        course.setId(id);
+        return courseRepository.save(course);
     }
 
     // Xóa Course
-    public Course deleteCourseById(String id) {
-        return courseRepository.deleteById(id);
+    public Course deleteCourseById(Long id) {
+        Course course = courseRepository.findById(id).orElse(null);
+        if (course == null) {
+            return null;
+        }
+        courseRepository.deleteById(id);
+        return course;
     }
 }

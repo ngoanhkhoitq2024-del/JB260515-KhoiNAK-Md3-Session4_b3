@@ -9,6 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+
 public class Enrollment {
     private String id;
     private String studentName;

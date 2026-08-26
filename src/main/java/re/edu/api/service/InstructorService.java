@@ -22,25 +22,32 @@ public class InstructorService {
     }
 
     // Lấy theo ID
-    public Instructor findInstructorById(String id) {
-        return instructorRepository.findById(id);
+    public Instructor findInstructorById(Long id) {
+        return instructorRepository.findById(id)
+                .orElse(null);
     }
 
     // Thêm
     public Instructor createInstructor(Instructor instructor) {
-        return instructorRepository.create(instructor);
+        return instructorRepository.save(instructor);
     }
 
     // Cập nhật
-    public Instructor updateInstructor(
-            String id,
-            Instructor instructor) {
-
-        return instructorRepository.update(id, instructor);
+    public Instructor updateInstructor(Long id, Instructor instructor) {
+        if (!instructorRepository.existsById(id)) {
+            return null;
+        }
+        instructor.setId(id);
+        return instructorRepository.save(instructor);
     }
 
     // Xóa theo ID
-    public Instructor deleteInstructorById(String id) {
-        return instructorRepository.deleteById(id);
+    public Instructor deleteInstructorById(Long id) {
+        Instructor instructor = instructorRepository.findById(id).orElse(null);
+        if (instructor == null) {
+            return null;
+        }
+        instructorRepository.deleteById(id);
+        return instructor;
     }
 }

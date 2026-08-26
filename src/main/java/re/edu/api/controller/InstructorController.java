@@ -27,7 +27,7 @@ public class InstructorController {
 
     // Lấy theo id
     @GetMapping("/{id}")
-    public ResponseEntity<Instructor> getInstructorById(@PathVariable String id) {
+    public ResponseEntity<Instructor> getInstructorById(@PathVariable Long id) {
         Instructor instructor = instructorService.findInstructorById(id);
         if (instructor == null) {
             return ResponseEntity.notFound().build();
@@ -44,7 +44,7 @@ public class InstructorController {
 
     // Cập nhật
     @PutMapping("/{id}")
-    public ResponseEntity<Instructor> updateInstructor(@PathVariable String id, @RequestBody Instructor instructor) {
+    public ResponseEntity<Instructor> updateInstructor(@PathVariable Long id, @RequestBody Instructor instructor) {
         Instructor updatedInstructor = instructorService.updateInstructor(id, instructor);
         if (updatedInstructor == null) {
             return ResponseEntity.notFound().build();
@@ -54,7 +54,7 @@ public class InstructorController {
 
     // Xóa
     @DeleteMapping("/{id}")
-    public ResponseEntity<Instructor> deleteInstructor(@PathVariable String id) {
+    public ResponseEntity<Instructor> deleteInstructor(@PathVariable Long id) {
         Instructor deletedInstructor = instructorService.deleteInstructorById(id);
         if (deletedInstructor == null) {
             return ResponseEntity.notFound().build();
