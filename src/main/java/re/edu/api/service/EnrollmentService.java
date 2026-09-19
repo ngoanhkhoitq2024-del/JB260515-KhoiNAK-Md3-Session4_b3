@@ -6,14 +6,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import re.edu.api.model.StudentEnrollment;
-import re.edu.api.repository.EnrollmentRepository;
+import re.edu.api.repository.IStudentEnrollmentRepository;
 
 @Service
 public class EnrollmentService {
-    private final EnrollmentRepository enrollmentRepository;
+    private final IStudentEnrollmentRepository enrollmentRepository;
 
     @Autowired
-    public EnrollmentService(EnrollmentRepository enrollmentRepository) {
+    public EnrollmentService(IStudentEnrollmentRepository enrollmentRepository) {
         this.enrollmentRepository = enrollmentRepository;
     }
 
@@ -43,7 +43,7 @@ public class EnrollmentService {
     }
 
     // Xóa
-    public StudentEnrollment deleteEnrollmentById(Long id) {
+    public StudentEnrollment deleteEnrollmentById(Long  id) {
         StudentEnrollment enrollment =
                 enrollmentRepository.findById(id).orElse(null);
 

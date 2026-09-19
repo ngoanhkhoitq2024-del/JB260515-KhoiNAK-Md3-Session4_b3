@@ -1,20 +1,19 @@
 package re.edu.api.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import re.edu.api.dto.InstructorCreateRequest;
 import re.edu.api.model.Instructor;
-import re.edu.api.repository.InstructorRepository;
+import re.edu.api.repository.IInstructorRepository;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class InstructorService {
-    private final InstructorRepository instructorRepository;
-
-    @Autowired
-    public InstructorService(InstructorRepository instructorRepository) {
-        this.instructorRepository = instructorRepository;
-    }
+    private final IInstructorRepository instructorRepository;
 
     // Lấy tất cả Instructor
     public List<Instructor> findAllInstructors() {
@@ -28,7 +27,10 @@ public class InstructorService {
     }
 
     // Thêm
-    public Instructor createInstructor(Instructor instructor) {
+    public Instructor createInstructor(@RequestBody InstructorCreateRequest req) {
+        Instructor instructor = new Instructor();
+        instructor.setName(req.getName());
+        instructor.setEmail(req.getEmail());
         return instructorRepository.save(instructor);
     }
 
