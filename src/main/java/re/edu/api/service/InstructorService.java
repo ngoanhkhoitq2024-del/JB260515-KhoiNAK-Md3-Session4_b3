@@ -27,7 +27,7 @@ public class InstructorService {
     }
 
     // Thêm
-    public Instructor createInstructor(@RequestBody InstructorCreateRequest req) {
+    public Instructor createInstructor(InstructorCreateRequest req) {
         Instructor instructor = new Instructor();
         instructor.setName(req.getName());
         instructor.setEmail(req.getEmail());

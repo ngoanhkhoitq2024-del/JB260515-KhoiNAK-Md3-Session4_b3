@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import re.edu.api.dto.InstructorCreateRequest;
 import re.edu.api.model.Instructor;
 import re.edu.api.service.InstructorService;
 
@@ -37,8 +38,8 @@ public class InstructorController {
 
     // Thêm
     @PostMapping
-    public ResponseEntity<Instructor> createInstructor(@RequestBody Instructor instructor) {
-        Instructor newInstructor = instructorService.createInstructor(instructor);
+    public ResponseEntity<Instructor> createInstructor(@RequestBody InstructorCreateRequest instructorDto) {
+        Instructor newInstructor = instructorService.createInstructor(instructorDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newInstructor);
     }
 
